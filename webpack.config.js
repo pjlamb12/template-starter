@@ -4,12 +4,25 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
-const javascript = {
-	test: /\.js$/,
+// const javascript = {
+// 	test: /\.js$/,
+// 	use: [
+// 		{
+// 			loader: 'babel-loader',
+// 			options: { presets: ['es2015'] },
+// 		},
+// 	],
+// };
+
+const typescript = {
+	test: /.ts$/,
 	use: [
 		{
 			loader: 'babel-loader',
 			options: { presets: ['es2015'] },
+		},
+		{
+			loader: 'ts-loader',
 		},
 	],
 };
@@ -35,7 +48,7 @@ const uglify = new webpack.optimize.UglifyJsPlugin({
 
 const config = {
 	entry: {
-		app: './public/javascripts/main.js',
+		app: './public/javascripts/main.ts',
 	},
 	devtool: 'source-map',
 	output: {
@@ -43,7 +56,7 @@ const config = {
 		filename: '[name].bundle.js',
 	},
 	module: {
-		rules: [javascript, styles],
+		rules: [typescript, styles],
 	},
 	plugins: [
 		new ExtractTextWebpackPlugin('style.css'),
