@@ -4,22 +4,22 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
-// const javascript = {
-// 	test: /\.js$/,
-// 	use: [
-// 		{
-// 			loader: 'babel-loader',
-// 			options: { presets: ['es2015'] },
-// 		},
-// 	],
-// };
+const javascript = {
+	test: /\.js$/,
+	use: [
+		{
+			loader: 'babel-loader',
+			options: { presets: ['env'] },
+		},
+	],
+};
 
 const typescript = {
 	test: /.ts$/,
 	use: [
 		{
 			loader: 'babel-loader',
-			options: { presets: ['es2015'] },
+			options: { presets: ['env'] },
 		},
 		{
 			loader: 'ts-loader',
@@ -42,13 +42,10 @@ const styles = {
 	use: ExtractTextWebpackPlugin.extract(['css-loader?sourceMap', postcss, 'sass-loader?sourceMap']),
 };
 
-const uglify = new webpack.optimize.UglifyJsPlugin({
-	compress: { warnings: false },
-});
-
 const config = {
 	entry: {
-		app: './public/javascripts/main.ts',
+		appTs: './public/scripts/typescript/main.ts',
+		appJs: './public/scripts/javascript/main.js',
 	},
 	devtool: 'source-map',
 	output: {
@@ -56,7 +53,7 @@ const config = {
 		filename: '[name].bundle.js',
 	},
 	module: {
-		rules: [typescript, styles],
+		rules: [javascript, typescript, styles],
 	},
 	plugins: [
 		new ExtractTextWebpackPlugin('style.css'),
